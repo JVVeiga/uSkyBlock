@@ -43,6 +43,8 @@ public enum JobManager {
         private Duration timeElapsed;
 
         public Stats() {
+            this.timeActive = Duration.ZERO;
+            this.timeElapsed = Duration.ZERO;
         }
 
         public synchronized void add(IncrementalRunnable runnable) {
