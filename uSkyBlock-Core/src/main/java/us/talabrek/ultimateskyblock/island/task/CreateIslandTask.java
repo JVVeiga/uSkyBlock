@@ -3,6 +3,7 @@ package us.talabrek.ultimateskyblock.island.task;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import us.talabrek.ultimateskyblock.player.PlayerPerk;
 import us.talabrek.ultimateskyblock.uSkyBlock;
 import us.talabrek.ultimateskyblock.util.Scheduler;
@@ -38,7 +39,8 @@ public class CreateIslandTask extends BukkitRunnable {
         }
         GenerateTask generateTask = new GenerateTask(plugin, player, playerPerk.getPlayerInfo(), next, playerPerk, cSchem);
         Duration heartBeat = Duration.ofMillis(plugin.getConfig().getInt("asyncworldedit.watchDog.heartBeatMs", 2000));
-        final BukkitRunnable completionWatchDog = new LocateChestTask(plugin, player, next, generateTask);
-        scheduler.sync(completionWatchDog, Duration.ZERO, heartBeat);
+        LocateChestTask locateTask = new LocateChestTask(plugin, player, next, generateTask);
+        BukkitTask task = scheduler.sync(locateTask, Duration.ofMillis(50), heartBeat);
+        locateTask.setTask(task);
     }
 }
