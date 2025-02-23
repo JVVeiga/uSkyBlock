@@ -76,7 +76,7 @@ public class BukkitServerMock {
                     var mockMeta = mock(ItemMeta.class, withSettings().extraInterfaces(Damageable.class));
                     when(((Damageable)mockMeta).getDamage()).thenReturn(0);
                     when(mockMeta.toString()).thenReturn(components);
-                    when(mockMeta.getAsComponentString()).thenReturn(components.isEmpty() ? "[]" : components);
+                    when(mockMeta.getAsString()).thenReturn(components.isEmpty() ? "[]" : components);
                     when(itemStack.getItemMeta()).thenReturn(mockMeta);
                     return itemStack;
                 });

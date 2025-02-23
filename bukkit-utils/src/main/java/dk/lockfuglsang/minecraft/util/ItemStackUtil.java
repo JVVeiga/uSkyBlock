@@ -160,7 +160,7 @@ public enum ItemStackUtil {
         var itemType = item.getType().getKey().toString();
         var itemMeta = item.getItemMeta();
         if (itemMeta != null) {
-            var componentString = itemMeta.getAsComponentString();
+            var componentString = itemMeta.getAsString();
             if (!componentString.isEmpty() && !componentString.equals("[]")) {
                 itemType += componentString;
             }
@@ -271,11 +271,11 @@ public enum ItemStackUtil {
         }
 
         public Builder select() {
-            return enchant(Enchantment.PROTECTION, 1).add(ItemFlag.HIDE_ENCHANTS);
+            return enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).add(ItemFlag.HIDE_ENCHANTS);
         }
 
         public Builder deselect() {
-            return remove(Enchantment.PROTECTION).remove(ItemFlag.HIDE_ENCHANTS);
+            return remove(Enchantment.PROTECTION_ENVIRONMENTAL).remove(ItemFlag.HIDE_ENCHANTS);
         }
 
         public Builder add(ItemFlag... flags) {

@@ -8,7 +8,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.entity.EntitySnapshot;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
@@ -30,7 +29,6 @@ import us.talabrek.ultimateskyblock.uSkyBlock;
 import us.talabrek.ultimateskyblock.util.LocationUtil;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
 
 import static dk.lockfuglsang.minecraft.po.I18nUtil.tr;
@@ -81,19 +79,14 @@ public class SpawnEvents implements Listener {
     }
 
     private static @Nullable EntityType getSpawnEggType(@NotNull ItemStack itemStack) {
-        if (itemStack.getItemMeta() instanceof SpawnEggMeta spawnEggMeta) {
-            EntitySnapshot spawnedEntity = spawnEggMeta.getSpawnedEntity();
-            if (spawnedEntity != null) {
-                return spawnedEntity.getEntityType();
-            } else {
-                String key = itemStack.getType().getKey().toString();
-                String entityKey = key.replace("_spawn_egg", "");
-                NamespacedKey namespacedKey = Objects.requireNonNull(NamespacedKey.fromString(entityKey));
-                return Registry.ENTITY_TYPE.get(namespacedKey);
-            }
-        } else {
-            return null;
+        if (itemStack.getItemMeta() instanceof SpawnEggMeta) {
+            String key = itemStack.getType().getKey().getKey();
+            String entityKey = key.replace("_spawn_egg", "");
+
+            NamespacedKey namespacedKey = NamespacedKey.fromString(entityKey);
+            return namespacedKey != null ? Registry.ENTITY_TYPE.get(namespacedKey) : null;
         }
+        return null;
     }
 
     @EventHandler(ignoreCancelled = true)
